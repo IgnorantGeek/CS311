@@ -27,34 +27,37 @@ public class WGraph
   ArrayList<Node> nodes;
   int numVert = 0;
   int numEdges = 0;
-  String filepath;
+  String pathtofile;
 
+  //TODO: WGraph constructor needs testing
   /**
    * Constructor for a new WGraph with some read file, the semantic of the read file is as follows:
-   * (a) First line contains a number indicating the number of vertices in the graph 
-   * (b) Second line contains a number indicating the number of edges in the graph 
-   * (c) 
+   * (1) First line contains a number indicating the number of vertices in the graph 
+   * (2) Second line contains a number indicating the number of edges in the graph 
+   * (3) Remaining lines contain 5 integers per line, x and y positions of the source vertex, x and y positions of the destination vertex
+   *     and an integer to denote the edge weight
    *
    * @param fName The file to be read
    */
   WGraph(String fName)
   {
-    this.filepath = fName;
-    File file = new File(this.filepath);
-    try {
-    Scanner scan = new Scanner(file);
-    while (scan.hasNextLine())
+    this.pathtofile = fName;
+    File file = new File(this.pathtofile);
+    try 
     {
-      //read the file, scanning for integers
-      this.numVert = scan.nextInt(); //sets the number of vertices 
-      scan.nextLine(); //move the line down
-      this.numEdges = scan.nextInt();
-    }
-    scan.close();
+      Scanner scan = new Scanner(file);
+      while (scan.hasNextLine())
+      {
+        //read the file, scanning for integers
+        this.numVert = scan.nextInt(); //sets the number of vertices 
+        scan.nextLine(); //move the line down
+        this.numEdges = scan.nextInt();
+      }
+      scan.close();
     } 
     catch (FileNotFoundException e)
     {
-      System.out.println("No file with the name " + this.filepath + " could be found.");
+      System.out.println("No file with the name " + this.pathtofile + " could be found.");
     }
   }
 
