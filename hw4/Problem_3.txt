@@ -1,0 +1,39 @@
+getStrength(Graph G, node x, node y)
+{
+  create empty stack called visited
+  set shortest = infinity
+  set numPaths = 0
+  set cost at x = 0
+  set cost at all other points = infinity //change this, make it so if a node has no cost it is assumed infinity
+  push x onto visited
+  set running = true
+  while (running)
+  {
+    while Node N at top of stack visited has unchecked edges
+    {
+      push next node V on to stack
+      if (V == y)
+      {
+        if (N.cost + 1 < shortest)
+        {
+          set shortest = N.cost + 1
+          set numPaths = 1
+        }
+        else if (N.cost + 1 = shortest)
+        {
+          numPaths += 1
+        }
+        pop V off stack visited
+      }
+      else if (V.cost < N.cost + 1)
+      {
+        pop V off stack
+      }
+      else
+      {
+        V.cost = N.cost + 1;
+      }
+    }
+    if (N == x) running = false
+    pop N off stack
+}
