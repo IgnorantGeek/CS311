@@ -35,13 +35,11 @@ public class WGraph
     }
   }
 
-  //all the nodes in graph
   Node vertices[];
   Edge edges[];
   int numVert = 0; 
   int numEdges = 0;
   String pathtofile;
-
 
   /**
    * Constructor for a new WGraph with some read file, the semantic of the read file is as follows:
@@ -61,11 +59,15 @@ public class WGraph
       Scanner scan = new Scanner(file);
       vertices = new Node[scan.nextInt()];
       edges = new Edge[scan.nextInt()];
-      while (scan.hasNextLine())
+      while (scan.hasNextLine() && numEdges != edges.length) //scans until max number of edges is reached
       {
+        //When scanning edges, if the edge adds a new node and the number of nodes is already maxed out
+        //we want to throw out that edge and keep scanning. There may be more edges following that don't contain 
+        //new nodes
         Node start = new Node();
         Node end = new Node();
         Edge e = new Edge();
+        boolean newEdge = false;
         start.position[0] = scan.nextInt();
         start.position[1] = scan.nextInt();
         end.position[0] = scan.nextInt();
@@ -73,17 +75,23 @@ public class WGraph
         e.weight = scan.nextInt();
         e.start = start;
         e.end = end;
-        edges[numEdges] = e;
-        numEdges++;
-        if (!start.isVertex())
+        //only add to edges if max number of nodes has not been reached
+        if (!start.isVertex() && numVert != vertices.length) 
         {
           vertices[numVert] = start;
           numVert++;
+          newEdge = true;
         }
-        if (!end.isVertex())
+        if (!end.isVertex() && numVert != vertices.length)
         {
           vertices[numVert] = end;
           numVert++;
+          newEdge = true;
+        }
+        if (numVert != vertices.length | !newEdge) //Bug: seems to be working now
+        {
+          edges[numEdges] = e;
+          numEdges++;
         }
       }
       scan.close();
