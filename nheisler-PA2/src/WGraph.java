@@ -1,5 +1,6 @@
 import java.lang.*;
 import java.util.*;
+import java.awt.PrintGraphics;
 import java.io.*;
 
 /**
@@ -14,22 +15,34 @@ public class WGraph
   {
     Node start;
     Node end;
-    double weight;
+    int weight;
   }
   
+  /**
+   * position format (x,y) = [0,1]
+   */
   class Node
   {
-    String name;
     ArrayList<Edge> edges;
+    int position[] = new int[2];
+    private boolean isVertex()
+    {
+      for (int i = 0; i < numVert; i++)
+      {
+        if (this.position[0] == vertices[i].position[0] && this.position[1] == vertices[i].position[1]) return true;
+      }
+      return false;
+    }
   }
 
-  //all the nodes in this graph
-  ArrayList<Node> nodes;
-  int numVert = 0;
+  //all the nodes in graph
+  Node vertices[];
+  Edge edges[];
+  int numVert = 0; 
   int numEdges = 0;
   String pathtofile;
 
-  //TODO: WGraph constructor needs testing
+
   /**
    * Constructor for a new WGraph with some read file, the semantic of the read file is as follows:
    * (1) First line contains a number indicating the number of vertices in the graph 
@@ -41,23 +54,43 @@ public class WGraph
    */
   WGraph(String fName)
   {
-    this.pathtofile = fName;
-    File file = new File(this.pathtofile);
+    pathtofile = fName;
+    File file = new File(pathtofile);
     try 
     {
       Scanner scan = new Scanner(file);
+      vertices = new Node[scan.nextInt()];
+      edges = new Edge[scan.nextInt()];
       while (scan.hasNextLine())
       {
-        //read the file, scanning for integers
-        this.numVert = scan.nextInt(); //sets the number of vertices 
-        scan.nextLine(); //move the line down
-        this.numEdges = scan.nextInt();
+        Node start = new Node();
+        Node end = new Node();
+        Edge e = new Edge();
+        start.position[0] = scan.nextInt();
+        start.position[1] = scan.nextInt();
+        end.position[0] = scan.nextInt();
+        end.position[1] = scan.nextInt();
+        e.weight = scan.nextInt();
+        e.start = start;
+        e.end = end;
+        edges[numEdges] = e;
+        numEdges++;
+        if (!start.isVertex())
+        {
+          vertices[numVert] = start;
+          numVert++;
+        }
+        if (!end.isVertex())
+        {
+          vertices[numVert] = end;
+          numVert++;
+        }
       }
       scan.close();
     } 
     catch (FileNotFoundException e)
     {
-      System.out.println("No file with the name " + this.pathtofile + " could be found.");
+      System.out.println("No file with the name " + pathtofile + " could be found.");
     }
   }
 
@@ -69,7 +102,7 @@ public class WGraph
    * @param vy y position of second vertex
    * @return
    */
-  public ArrayList<Integer> V2V(int ux, int uy, int vs, int vy)
+  public ArrayList<Integer> V2V(int ux, int uy, int vx, int vy)
   {
     return null;
   }
@@ -96,10 +129,38 @@ public class WGraph
   {
     return null;
   }
+
+  /**
+   * Helper method to print the graph 
+   */
+  private void printGraph()
+  {
+    
+    System.out.println("Total number of vertices in graph: " + this.numVert);
+    System.out.println("Max number of vertices: " + this.vertices.length);
+    System.out.println("Total number of edges in graph: " + this.numEdges);
+    System.out.println("Max number of edges: " + this.edges.length);
+    for (int i = 0; i < numEdges; i++) 
+    {
+      Node from = edges[i].start;
+      Node to = edges[i].end;
+      int cost = edges[i].weight;
+      System.out.print(from.position[0]); 
+      System.out.print(' '); System.out.print(from.position[1]);
+      System.out.print(' ');
+      System.out.print(to.position[0]);
+      System.out.print(' ');
+      System.out.print(to.position[1]);
+      System.out.print(' ');
+      System.out.print(cost);
+      System.out.println();
+    }
+  }
   
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    System.out.println("testing testing 1, 2, 3");
+    WGraph graph = new WGraph("readMe.txt");
+    graph.printGraph();
   }
 }
