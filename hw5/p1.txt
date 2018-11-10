@@ -1,0 +1,26 @@
+Kosaraju outputs linked list of SCC's
+
+Assume edge E has two parameters,
+E.source - source vertex
+E.dest - destination vertex
+
+getNCEdges(Graph(V,E))
+Run Kosaraju, store results in SCC list
+for every edge E
+{
+  create empty array of edges
+  if E.dest belongs to SCC with size > 1
+    if E.source belongs to same SCC
+      This edge is component
+  else non-comp, add it to return edge array
+  return edge array
+}
+
+O(E * # of SCCs)
+ 
+worst case scenario would be # of SCC's = # of Vertexes
+so O(E*V) for algo, Kosujara is O(E+V) so whichever is bigger is total
+E*V should be bigger, total: O(E*V) 
+
+How good is that? Not great, if we assume V = E then this would be O(E^2)
+Is there a better way?

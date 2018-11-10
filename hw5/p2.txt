@@ -1,0 +1,30 @@
+Assume Dijkstra returns a list of verticies, with a variable that stores the distance from the source to each vertex
+
+int getRelTime(Graph G, vertex A, vertex B)
+{
+  A2B = Dijkstra(G, A); //gets list of distances from A to all reachable vertices
+  B2A = Dijkstra(G, B); //gets list of distances from B to all reachable vertices
+  Atime = null;
+  Btime = null;
+  for all vertices V in A2B
+    if V == B
+      Atime = V.dist;
+  for all vertices V in B2A
+    if V == A
+      Btime = V.dist;
+  if (!Atime)
+  {
+    //A is not eventual follower of B
+    return null;
+  }
+  if (!Btime)
+  {
+    //B is not eventual follower of A, but A is eventual of B
+    return Atime;
+  }
+  //if we get here, Atime and Btime are not null, thus A and B are eq
+  else return 0;
+}
+
+
+

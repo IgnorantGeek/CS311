@@ -1,0 +1,30 @@
+Minimum Spanning Tree (MST) all nodes connected/reachable from any other node, with the lowest weight for all connections
+Need to adjust the graph, then refind MST. Is there an MST algorithm we used in class? Could probably find one online...
+How can we use the MST that is passed in? There might be a way to make a small adjustment without needing to parse through the whole
+graph over and over
+when both of an edge's vertices are 'visited' there will be a cycle I believe
+Worst runtime: O(ElogV) 
+G' should only take O(1) I believe, then just need to re-run the MST utility 
+Tree cannot have cycle
+
+
+adjustMST(graph G, MST T, edge e, uint c)
+{
+  for all edges E in G
+    if E = e
+      E.weight += c
+      if E exists in T    /*O(V)*/
+        return kruskal(G);
+      else return T
+}
+
+By definition, a MST of some graph is a Spanning Tree (ST) with the lowest total edge weight. A Spanning Tree is a tree of some graph (G) containing all vertexes (V) and 
+having V-1 edges (E), and is a subgraph of G (every E in ST exists in G). So for some graph G, a MST would have no cycles, contain all vertexes, and have the lowest total 
+edge weight of all the STs of G. In this algorithm, when updating the weight of an edge E, we can have two scenarios. Either the edge E exists in the MST T, or it does not.
+If it does exist in T, we need to update the edge weight, and re-calculate the MST for the updated graph (G') by running Kruskal on G'. If edge E does not exist in T, we don't have to do anything. 
+We know this because the weight of T is already the minimum weight of all the STs of G. Because we only ever INCREASE the value of E, anytime we update an edge that is not in T
+we know that T will still have the lowest total weight, so the updated graph (G') will have the same MST. 
+
+Runtime of this is O(ElogV). Krustal's runtime is O(ElogV) and all other calculations are done in O(1), so total is O(ElogV).
+Technically this runtime is: O(E) + O(ElogV) but O(ElogV) is way bigger so the overall runtime devolves to O(ElogV) the outer for loop runs E times, but 
+because of the if statement, everything inside that loop runs only once. So it is not O(E*V).
