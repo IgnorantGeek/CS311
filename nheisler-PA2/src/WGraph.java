@@ -23,7 +23,7 @@ public class WGraph
    */
   private class Node
   {
-    ArrayList<Edge> edges;
+    ArrayList<Node> edges;
     int position[] = new int[2];
     private boolean isVertex()
     {
@@ -34,13 +34,11 @@ public class WGraph
       return false;
     }
   }
-
   Node vertices[];
   Edge edges[];
   int numVert = 0; 
   int numEdges = 0;
   String pathtofile;
-
   
   /**
    * Helper method to print the graph, features a try-catch block that attempts to open a scanner on the input 
