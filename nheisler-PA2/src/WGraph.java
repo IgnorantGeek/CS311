@@ -11,7 +11,7 @@ import java.io.*;
 public class WGraph
 {
   //These are subclasses for graph elements
-  class Edge
+  private class Edge
   {
     Node start;
     Node end;
@@ -21,9 +21,9 @@ public class WGraph
   /**
    * position format (x,y) = [0,1]
    */
-  class Node
+  private class Node
   {
-    ArrayList<Edge> edges;
+    ArrayList<Node> edges;
     int position[] = new int[2];
     private boolean isVertex()
     {
@@ -34,13 +34,51 @@ public class WGraph
       return false;
     }
   }
-
   Node vertices[];
   Edge edges[];
   int numVert = 0;
   int numEdges = 0;
   String pathtofile;
-
+  
+  /**
+   * Helper method to print the graph, features a try-catch block that attempts to open a scanner on the input 
+   * file from the constructor. Doesn't print if the input file is invalid. 
+   */
+  private void printGraph()
+  {
+    try
+    {
+      File file = new File(this.pathtofile);
+      Scanner scan = new Scanner(file);
+      scan.close();
+    }
+    catch (FileNotFoundException e)
+    {
+      //don't do anything, the constructor handles error printing, this only makes sure 
+      //we are not printing when there is no file.
+      return;
+    }
+    System.out.println("Total number of vertices in graph: " + this.numVert);
+    System.out.println("Max number of vertices: " + this.vertices.length);
+    System.out.println("Total number of edges in graph: " + this.numEdges);
+    System.out.println("Max number of edges: " + this.edges.length);
+    for (int i = 0; i < numEdges; i++) 
+    {
+      Node from = edges[i].start;
+      Node to = edges[i].end;
+      int cost = edges[i].weight;
+      System.out.print(from.position[0]); 
+      System.out.print(' '); System.out.print(from.position[1]);
+      System.out.print(' ');
+      System.out.print(to.position[0]);
+      System.out.print(' ');
+      System.out.print(to.position[1]);
+      System.out.print(' ');
+      System.out.print(cost);
+      System.out.println();
+    }
+  }
+  
   /**
    * Constructor for a new WGraph with some read file, the semantic of the read file is as follows:
    * (1) First line contains a number indicating the number of vertices in the graph
@@ -138,6 +176,7 @@ public class WGraph
     return null;
   }
 
+<<<<<<< HEAD
   /**
    * Helper method to print the graph
    */
@@ -165,10 +204,12 @@ public class WGraph
     }
   }
 
+=======
+>>>>>>> ebe5760c15e52fbb439275230b839278bc8b92f3
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("readMe.txt");
+    WGraph graph = new WGraph("GraphData.txt");
     graph.printGraph();
   }
 }
