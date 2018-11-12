@@ -1,14 +1,11 @@
 import java.lang.*;
 import java.util.*;
-<<<<<<< HEAD
-=======
 import java.awt.PrintGraphics;
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
 import java.io.*;
 
 /**
  * Class for getting the shortest path for various types of input types
- * 
+ *
  * @Aauthor Nick Heisler
  */
 public class WGraph
@@ -18,27 +15,9 @@ public class WGraph
   {
     Node start;
     Node end;
-<<<<<<< HEAD
-    double weight;
-  }
-  
-  class Node
-  {
-    String name;
-    ArrayList<Edge> edges;
-  }
-
-  //all the nodes in this graph
-  ArrayList<Node> nodes;
-  int numVert = 0;
-  int numEdges = 0;
-  String pathtofile;
-
-  //TODO: WGraph constructor needs testing
-=======
     int weight;
   }
-  
+
   /**
    * position format (x,y) = [0,1]
    */
@@ -58,15 +37,14 @@ public class WGraph
 
   Node vertices[];
   Edge edges[];
-  int numVert = 0; 
+  int numVert = 0;
   int numEdges = 0;
   String pathtofile;
 
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
   /**
    * Constructor for a new WGraph with some read file, the semantic of the read file is as follows:
-   * (1) First line contains a number indicating the number of vertices in the graph 
-   * (2) Second line contains a number indicating the number of edges in the graph 
+   * (1) First line contains a number indicating the number of vertices in the graph
+   * (2) Second line contains a number indicating the number of edges in the graph
    * (3) Remaining lines contain 5 integers per line, x and y positions of the source vertex, x and y positions of the destination vertex
    *     and an integer to denote the edge weight
    *
@@ -74,22 +52,9 @@ public class WGraph
    */
   WGraph(String fName)
   {
-<<<<<<< HEAD
-    this.pathtofile = fName;
-    File file = new File(this.pathtofile);
-    try 
-    {
-      Scanner scan = new Scanner(file);
-      while (scan.hasNextLine())
-      {
-        //read the file, scanning for integers
-        this.numVert = scan.nextInt(); //sets the number of vertices 
-        scan.nextLine(); //move the line down
-        this.numEdges = scan.nextInt();
-=======
     pathtofile = fName;
     File file = new File(pathtofile);
-    try 
+    try
     {
       Scanner scan = new Scanner(file);
       vertices = new Node[scan.nextInt()];
@@ -97,7 +62,7 @@ public class WGraph
       while (scan.hasNextLine() && numEdges != edges.length) //scans until max number of edges is reached
       {
         //When scanning edges, if the edge adds a new node and the number of nodes is already maxed out
-        //we want to throw out that edge and keep scanning. There may be more edges following that don't contain 
+        //we want to throw out that edge and keep scanning. There may be more edges following that don't contain
         //new nodes
         Node start = new Node();
         Node end = new Node();
@@ -111,7 +76,7 @@ public class WGraph
         e.start = start;
         e.end = end;
         //only add to edges if max number of nodes has not been reached
-        if (!start.isVertex() && numVert != vertices.length) 
+        if (!start.isVertex() && numVert != vertices.length)
         {
           vertices[numVert] = start;
           numVert++;
@@ -128,17 +93,12 @@ public class WGraph
           edges[numEdges] = e;
           numEdges++;
         }
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
       }
       scan.close();
-    } 
+    }
     catch (FileNotFoundException e)
     {
-<<<<<<< HEAD
-      System.out.println("No file with the name " + this.pathtofile + " could be found.");
-=======
       System.out.println("No file with the name " + pathtofile + " could be found.");
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
     }
   }
 
@@ -150,11 +110,7 @@ public class WGraph
    * @param vy y position of second vertex
    * @return
    */
-<<<<<<< HEAD
-  public ArrayList<Integer> V2V(int ux, int uy, int vs, int vy)
-=======
   public ArrayList<Integer> V2V(int ux, int uy, int vx, int vy)
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
   {
     return null;
   }
@@ -173,7 +129,7 @@ public class WGraph
 
   /**
    * Finds shortest path between two vertices given two sets of vertices
-   * @param S1 first set of vertices 
+   * @param S1 first set of vertices
    * @param S2 second set of vertices
    * @return
    */
@@ -181,25 +137,23 @@ public class WGraph
   {
     return null;
   }
-<<<<<<< HEAD
-=======
 
   /**
-   * Helper method to print the graph 
+   * Helper method to print the graph
    */
   private void printGraph()
   {
-    
+
     System.out.println("Total number of vertices in graph: " + this.numVert);
     System.out.println("Max number of vertices: " + this.vertices.length);
     System.out.println("Total number of edges in graph: " + this.numEdges);
     System.out.println("Max number of edges: " + this.edges.length);
-    for (int i = 0; i < numEdges; i++) 
+    for (int i = 0; i < numEdges; i++)
     {
       Node from = edges[i].start;
       Node to = edges[i].end;
       int cost = edges[i].weight;
-      System.out.print(from.position[0]); 
+      System.out.print(from.position[0]);
       System.out.print(' '); System.out.print(from.position[1]);
       System.out.print(' ');
       System.out.print(to.position[0]);
@@ -210,16 +164,11 @@ public class WGraph
       System.out.println();
     }
   }
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
-  
+
   public static void main(String[] args)
   {
     //here is where main stuff will go
-<<<<<<< HEAD
-    System.out.println("testing testing 1, 2, 3");
-=======
     WGraph graph = new WGraph("readMe.txt");
     graph.printGraph();
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
   }
 }

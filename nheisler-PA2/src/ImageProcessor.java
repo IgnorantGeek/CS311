@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import java.lang.String;
-
-public class ImageProcessor
-{
-  //class stuff
-=======
 import java.lang.*;
 import java.util.*;
 import java.io.*;
@@ -18,7 +11,7 @@ public class ImageProcessor
   public ImageProcessor(String fname)
   {
     this.filepath = fname;
-    try 
+    try
     {
       File file = new File(this.filepath);
       Scanner scan = new Scanner(file);
@@ -50,5 +43,4 @@ public class ImageProcessor
   {
     //do the thing and write to file
   }
->>>>>>> 5bb3c5cc2ff4b65849ab1a67c34c2e29e9894df2
 }
