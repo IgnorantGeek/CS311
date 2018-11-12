@@ -181,7 +181,7 @@ public class WGraph
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("readMe.txt");
+    WGraph graph = new WGraph("GraphData.txt");
     graph.printGraph();
   }
 }
