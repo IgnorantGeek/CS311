@@ -23,7 +23,7 @@ public class WGraph
    */
   private class Node
   {
-    ArrayList<Node> connections = new ArrayList<Node>(); //duh
+    ArrayList<Node> edges;
     int position[] = new int[2];
     private boolean isVertex()
     {
@@ -69,7 +69,6 @@ public class WGraph
         boolean newEdge = false;
         start.position[0] = scan.nextInt();
         start.position[1] = scan.nextInt();
-        start.connections.add(end);
         end.position[0] = scan.nextInt();
         end.position[1] = scan.nextInt();
         e.weight = scan.nextInt();
@@ -93,8 +92,8 @@ public class WGraph
           edges[numEdges] = e;
           numEdges++;
         }
+        scan.nextLine(); //thats annoying
       }
-      scan.close();
     }
     catch (FileNotFoundException e)
     {
@@ -138,37 +137,50 @@ public class WGraph
     return null;
   }
 
-  /**
-   * Helper method to print the graph
-   */
-  private void printGraph()
-  {
 
-    System.out.println("Total number of vertices in graph: " + this.numVert);
-    System.out.println("Max number of vertices: " + this.vertices.length);
-    System.out.println("Total number of edges in graph: " + this.numEdges);
-    System.out.println("Max number of edges: " + this.edges.length);
-    for (int i = 0; i < numEdges; i++)
+    /**
+     * Helper method to print the graph, features a try-catch block that attempts to open a scanner on the input
+     * file from the constructor. Doesn't print if the input file is invalid.
+     */
+    private void printGraph()
     {
-      Node from = edges[i].start;
-      Node to = edges[i].end;
-      int cost = edges[i].weight;
-      System.out.print(from.position[0]);
-      System.out.print(' '); System.out.print(from.position[1]);
-      System.out.print(' ');
-      System.out.print(to.position[0]);
-      System.out.print(' ');
-      System.out.print(to.position[1]);
-      System.out.print(' ');
-      System.out.print(cost);
-      System.out.println();
+      try
+      {
+        File file = new File(this.pathtofile);
+        Scanner scan = new Scanner(file);
+        scan.close();
+      }
+      catch (FileNotFoundException e)
+      {
+        //don't do anything, the constructor handles error printing, this only makes sure
+        //we are not printing when there is no file.
+        return;
+      }
+      System.out.println("Total number of vertices in graph: " + this.numVert);
+      System.out.println("Max number of vertices: " + this.vertices.length);
+      System.out.println("Total number of edges in graph: " + this.numEdges);
+      System.out.println("Max number of edges: " + this.edges.length);
+      for (int i = 0; i < numEdges; i++)
+      {
+        Node from = edges[i].start;
+        Node to = edges[i].end;
+        int cost = edges[i].weight;
+        System.out.print(from.position[0]);
+        System.out.print(' '); System.out.print(from.position[1]);
+        System.out.print(' ');
+        System.out.print(to.position[0]);
+        System.out.print(' ');
+        System.out.print(to.position[1]);
+        System.out.print(' ');
+        System.out.print(cost);
+        System.out.println();
+      }
     }
-  }
 
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("GraphData.txt");
+    WGraph graph = new WGraph("/home/nick/Documents/Workspaces/CS311/nheisler-PA2/src/GraphData.txt");
     graph.printGraph();
   }
 }
