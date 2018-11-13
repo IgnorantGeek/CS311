@@ -6,7 +6,7 @@ import java.io.*;
 /**
  * Class for getting the shortest path for various types of input types
  *
- * @Aauthor Nick Heisler
+ * @author Nick Heisler
  */
 public class WGraph
 {
@@ -23,7 +23,7 @@ public class WGraph
    */
   private class Node
   {
-    ArrayList<Node> edges;
+    ArrayList<Edge> edges = new ArrayList<Edge>();
     int position[] = new int[2];
     private boolean isVertex()
     {
@@ -32,6 +32,18 @@ public class WGraph
         if (this.position[0] == vertices[i].position[0] && this.position[1] == vertices[i].position[1]) return true;
       }
       return false;
+    }
+    private void printNode()
+    {
+      // print Node info
+      System.out.print(this.position[0]);
+      System.out.print(' ');
+      System.out.print(this.position[1]);
+      System.out.print(' ');
+      if (this.edges.length != 0)
+      {
+        //print all the Nodes connected to this node, followed by the edge weight
+      }
     }
   }
   Node vertices[];
@@ -74,6 +86,7 @@ public class WGraph
         e.weight = scan.nextInt();
         e.start = start;
         e.end = end;
+        start.edges.add(e);
         //only add to edges if max number of nodes has not been reached
         if (!start.isVertex() && numVert != vertices.length)
         {
@@ -87,13 +100,14 @@ public class WGraph
           numVert++;
           newEdge = true;
         }
-        if (numVert != vertices.length | !newEdge) //Bug: seems to be working now
+        if (numVert != vertices.length | !newEdge) // Bug: seems to be working now
         {
           edges[numEdges] = e;
           numEdges++;
         }
-        scan.nextLine(); //thats annoying
+        scan.nextLine(); // thats annoying
       }
+      scan.close();
     }
     catch (FileNotFoundException e)
     {
@@ -180,7 +194,7 @@ public class WGraph
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("/home/nick/Documents/Workspaces/CS311/nheisler-PA2/src/GraphData.txt");
+    WGraph graph = new WGraph("GraphData.txt");
     graph.printGraph();
   }
 }
