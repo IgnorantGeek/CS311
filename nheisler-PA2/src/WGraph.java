@@ -40,10 +40,30 @@ public class WGraph
       System.out.print(' ');
       System.out.print(this.position[1]);
       System.out.print(' ');
-      if (this.edges.length != 0)
+      int numconnections = this.edges.size();
+      if (numconnections != 0)
       {
         //print all the Nodes connected to this node, followed by the edge weight
+        int i = 0;
+        while (i != numconnections)
+        {
+          if (i != 0)
+          {
+            System.out.print("    ");
+          }
+          System.out.print(this.edges.get(i).end.position[0]);
+          System.out.print(' ');
+          System.out.print(this.edges.get(i).end.position[1]);
+          System.out.print(' ');
+          System.out.print(this.edges.get(i).weight);
+          i++;
+          if (i != numconnections)
+          {
+            System.out.println();
+          }
+        }
       }
+      System.out.println();
     }
   }
   Node vertices[];
@@ -194,7 +214,15 @@ public class WGraph
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("GraphData.txt");
+    WGraph graph = new WGraph("D:\\Documents\\Workspaces\\CS311\\nheisler-PA2\\src\\GraphData.txt");
     graph.printGraph();
+    System.out.println();
+    System.out.println();
+    int i = 0;
+    while (i < graph.numVert)
+    {
+      graph.vertices[i].printNode();
+      i++;
+    }
   }
 }
