@@ -25,13 +25,21 @@ public class WGraph
   {
     ArrayList<Edge> edges = new ArrayList<Edge>();
     int position[] = new int[2];
-    private boolean isVertex()
+    
+    /**
+     * Checks if a node with this position exists
+     * @return  the Node, if it exists. Null otherwise
+     */
+    private Node isVertex()
     {
       for (int i = 0; i < numVert; i++)
       {
-        if (this.position[0] == vertices[i].position[0] && this.position[1] == vertices[i].position[1]) return true;
+        if (this.position[0] == vertices[i].position[0] && this.position[1] == vertices[i].position[1])
+        {
+          return vertices[i];
+        }
       }
-      return false;
+      return null;
     }
     private void printNode()
     {
@@ -43,7 +51,7 @@ public class WGraph
       int numconnections = this.edges.size();
       if (numconnections != 0)
       {
-        //print all the Nodes connected to this node, followed by the edge weight
+        //print all the  Nodesconnected to this node, followed by the edge weight
         int i = 0;
         while (i != numconnections)
         {
@@ -95,6 +103,12 @@ public class WGraph
         //When scanning edges, if the edge adds a new node and the number of nodes is already maxed out
         //we want to throw out that edge and keep scanning. There may be more edges following that don't contain
         //new nodes
+
+        // it is creating a new instance of the node each time this piece runs
+        // Need to check if this node already exists, if it does set it to that 
+        // node to update the correct information
+        boolean newStart = false;
+        boolean newEnd = false;
         Node start = new Node();
         Node end = new Node();
         Edge e = new Edge();
@@ -104,17 +118,26 @@ public class WGraph
         end.position[0] = scan.nextInt();
         end.position[1] = scan.nextInt();
         e.weight = scan.nextInt();
+        if (start.isVertex() != null) 
+        {
+          start = start.isVertex();
+          newStart = true;
+        }
+        if (end.isVertex() != null)
+        {
+          end = end.isVertex();
+          newEnd = true;
+        }
         e.start = start;
         e.end = end;
         start.edges.add(e);
-        //only add to edges if max number of nodes has not been reached
-        if (!start.isVertex() && numVert != vertices.length)
+        if (!newStart && numVert != vertices.length)
         {
           vertices[numVert] = start;
           numVert++;
           newEdge = true;
         }
-        if (!end.isVertex() && numVert != vertices.length)
+        if (!newEnd && numVert != vertices.length)
         {
           vertices[numVert] = end;
           numVert++;
