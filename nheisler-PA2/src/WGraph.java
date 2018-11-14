@@ -18,6 +18,23 @@ public class WGraph
     int weight;
   }
 
+  private class PathNode
+      {
+        Node vertex;
+        int shortest;
+        PathNode[] connections;
+        Node previous; //for now, not sure if we need this.
+        PathNode(Node n, int dist)
+        {
+          vertex = n;
+          shortest = dist;
+          for (int i = 0; i < n.edges.length; i++)
+          {
+            
+          }
+        }
+      }
+
   /**
    * position format (x,y) = [0,1]
    */
@@ -95,21 +112,37 @@ public class WGraph
     {
       // how can I store info about distance from vertex? What about previous vertex info, is that important 
       // for my application? 
-      private class path_node
-      {
-        Node vertex;
-        int shortest;
-        Node previous; //for now, not sure if we need this.
-        path_node(Node n, int dist)
-        {
-          vertex = n;
-          shortest = dist;
-        }
-      } // so then for every Node in the graph, create a path_node
+      int i = 0;
+      int sourcemark = 0;
+      ArrayList<PathNode> visited = new ArrayList<PathNode>();
+      ArrayList<PathNode> unvisited = new ArrayList<PathNode>();
       ArrayList<Integer> path_to_target = new ArrayList<Integer>();// what we are returning, array of positions
-      Node[] visited = new Node[this.numVert];
-      Node[] unvisited = new Node[this.numVert];
       ArrayList<Node> temp_path = new ArrayList<Node>();
+      
+      // this loop should initialize all the Nodes in the graph as PathNodes, and set the source node to 0 distance
+      // sourcemark stores the index of the source node in the unvisited array
+      while (i != numVert)
+      {
+        int distance = Integer.MAX_VALUE;
+        if (vertices[i] == this) 
+        {
+          sourcemark = i;
+          distance = 0;
+        }
+        PathNode pn = new PathNode(vertices[i], distance);
+        unvisited.add(i, pn);
+        i++;
+      }
+      // now we want to "look at" the source vertex, unvisited[sourcemark]
+      PathNode looking = unvisited.get(sourcemark);
+      Node lookingn = looking.vertex;
+      while (unvisited.size() != 0)
+      {
+        for (int j = 0; j < lookingn.edges.length; j++)
+        {
+
+        }
+      }
       return path_to_target;
     }
   }
