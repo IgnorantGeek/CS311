@@ -10,6 +10,12 @@ import java.io.*;
  */
 public class WGraph
 {
+  Node vertices[];
+  Edge edges[];
+  int numVert = 0;
+  int numEdges = 0;
+  String pathtofile;
+
   //These are subclasses for graph elements
   private class Edge
   {
@@ -17,23 +23,6 @@ public class WGraph
     Node end;
     int weight;
   }
-
-  private class PathNode
-      {
-        Node vertex;
-        int shortest;
-        PathNode[] connections;
-        Node previous; //for now, not sure if we need this.
-        PathNode(Node n, int dist)
-        {
-          vertex = n;
-          shortest = dist;
-          for (int i = 0; i < n.edges.length; i++)
-          {
-            
-          }
-        }
-      }
 
   /**
    * position format (x,y) = [0,1]
@@ -110,47 +99,67 @@ public class WGraph
      */
     private ArrayList<Integer> get_shortest_as_int(Node n)
     {
-      // how can I store info about distance from vertex? What about previous vertex info, is that important 
-      // for my application? 
+      // Begin Dijkstra Block: This guy is done. Well I hope
       int i = 0;
       int sourcemark = 0;
-      ArrayList<PathNode> visited = new ArrayList<PathNode>();
-      ArrayList<PathNode> unvisited = new ArrayList<PathNode>();
+      ArrayList<Node> visited = new ArrayList<Node>();
+      ArrayList<Node> unvisited = new ArrayList<Node>();
       ArrayList<Integer> path_to_target = new ArrayList<Integer>();// what we are returning, array of positions
-      ArrayList<Node> temp_path = new ArrayList<Node>();
+      //ArrayList<Node> temp_path = new ArrayList<Node>();
+      ArrayList<Integer> distance = new ArrayList<Integer>();
       
-      // this loop should initialize all the Nodes in the graph as PathNodes, and set the source node to 0 distance
+      // this loop should initialize the unvisited array and distance arrays
       // sourcemark stores the index of the source node in the unvisited array
       while (i != numVert)
       {
-        int distance = Integer.MAX_VALUE;
+        int dist = Integer.MAX_VALUE;
         if (vertices[i] == this) 
         {
           sourcemark = i;
-          distance = 0;
+          dist = 0;
         }
-        PathNode pn = new PathNode(vertices[i], distance);
-        unvisited.add(i, pn);
+        unvisited.add(vertices[i]);
+        distance.add(dist);
         i++;
       }
       // now we want to "look at" the source vertex, unvisited[sourcemark]
-      PathNode looking = unvisited.get(sourcemark);
-      Node lookingn = looking.vertex;
+      Node looking = unvisited.get(sourcemark);
       while (unvisited.size() != 0)
       {
-        for (int j = 0; j < lookingn.edges.length; j++)
+        for (int j = 0; j < looking.edges.size(); j++)
         {
-
+          Edge examine = looking.edges.get(i);
+          Node neighbor = examine.end;
+          if (unvisited.contains(neighbor)) // we don't want to examine visited members, their distances are finalized
+          {
+            int neighborIndex = unvisited.indexOf(neighbor);
+            int lookIndex = unvisited.indexOf(looking);
+            int newDist = distance.get(lookIndex) + examine.weight;
+            if (newDist < distance.get(neighborIndex))
+            {
+              distance.set(neighborIndex, newDist);
+            }
+          }
         }
+        unvisited.remove(looking);
+        visited.add(looking);
+        // looking = next smallest Node in unvisited. So I need to find the index of the next smallest number in distance.
+        int smallest = distance.get(0);
+        for (int x = 0; x < unvisited.size(); x++)
+        {
+          if (distance.get(x) < smallest)
+          {
+            smallest = distance.get(x);
+          }
+        }
+        looking = unvisited.get(smallest);
       }
+      // End Dijkstra Block
+
+      //TODO: Find way to save the shortest path
       return path_to_target;
     }
   }
-  Node vertices[];
-  Edge edges[];
-  int numVert = 0;
-  int numEdges = 0;
-  String pathtofile;
 
   /**
    * Constructor for a new WGraph with some read file, the semantic of the read file is as follows:
@@ -318,7 +327,7 @@ public class WGraph
     System.out.println("Total number of edges in graph: " + graph.numEdges);
     System.out.println("Max number of edges: " + graph.edges.length);
     System.out.println();
-    //graph.printGraph();
+    graph.printGraph();
     System.out.println();
 
     int i = 0;
