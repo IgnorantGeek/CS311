@@ -23,8 +23,15 @@ public class WGraph
    */
   private class Node
   {
-    ArrayList<Edge> edges = new ArrayList<Edge>();
+    ArrayList<Edge> edges;
     int position[] = new int[2];
+
+    Node(int x, int y)
+    {
+      position[0] = x;
+      position[1] = y;
+      edges = new ArrayList<Edge>();
+    }
     
     /**
      * Checks if a node with this position exists
@@ -41,7 +48,11 @@ public class WGraph
       }
       return null;
     }
-    private void printNode()
+    /**
+     * Prints this node's position, and the positions of any connected nodes, 
+     * as well as the associated edge weight, used for testing
+     */
+    public void printNode()
     {
       // print Node info
       System.out.print(this.position[0]);
@@ -73,6 +84,34 @@ public class WGraph
       }
       System.out.println();
     }
+
+    /**
+     * Gets the shortest path from the source node to the target node, n.
+     * @param n target node for path
+     * @return ArrayList of integers, containing the path to the target node.
+     * The path is in sequential order of each nodes x and y position, respectively.
+     */
+    private ArrayList<Integer> get_shortest_as_int(Node n)
+    {
+      // how can I store info about distance from vertex? What about previous vertex info, is that important 
+      // for my application? 
+      private class path_node
+      {
+        Node vertex;
+        int shortest;
+        Node previous; //for now, not sure if we need this.
+        path_node(Node n, int dist)
+        {
+          vertex = n;
+          shortest = dist;
+        }
+      } // so then for every Node in the graph, create a path_node
+      ArrayList<Integer> path_to_target = new ArrayList<Integer>();// what we are returning, array of positions
+      Node[] visited = new Node[this.numVert];
+      Node[] unvisited = new Node[this.numVert];
+      ArrayList<Node> temp_path = new ArrayList<Node>();
+      return path_to_target;
+    }
   }
   Node vertices[];
   Edge edges[];
@@ -100,23 +139,16 @@ public class WGraph
       edges = new Edge[scan.nextInt()];
       while (scan.hasNextLine() && numEdges != edges.length) //scans until max number of edges is reached
       {
-        //When scanning edges, if the edge adds a new node and the number of nodes is already maxed out
-        //we want to throw out that edge and keep scanning. There may be more edges following that don't contain
-        //new nodes
-
-        // it is creating a new instance of the node each time this piece runs
-        // Need to check if this node already exists, if it does set it to that 
-        // node to update the correct information
-        boolean newStart = false;
-        boolean newEnd = false;
-        Node start = new Node();
-        Node end = new Node();
+        boolean newStart, newEnd, newEdge;
+        newStart = newEnd = newEdge = false;
+        int startx, starty, endx, endy;
+        startx = scan.nextInt();
+        starty = scan.nextInt();
+        endx = scan.nextInt();
+        endy = scan.nextInt();
+        Node start = new Node(startx, starty);
+        Node end = new Node(endx, endy);
         Edge e = new Edge();
-        boolean newEdge = false;
-        start.position[0] = scan.nextInt();
-        start.position[1] = scan.nextInt();
-        end.position[0] = scan.nextInt();
-        end.position[1] = scan.nextInt();
         e.weight = scan.nextInt();
         if (start.isVertex() != null) 
         {
@@ -161,14 +193,28 @@ public class WGraph
   /**
    * Finds shortest path bewtween two vertices given two vertices
    * @param ux x position of first vertex
-   * @param uy y position of first vertext
+   * @param uy y position of first vertex
    * @param vs x position of second vertex
    * @param vy y position of second vertex
    * @return
    */
   public ArrayList<Integer> V2V(int ux, int uy, int vx, int vy)
   {
-    return null;
+    Node source = new Node(ux, uy);
+    Node target = new Node(vx, vy);
+    if (source.isVertex() == null) 
+    {
+      System.out.println("One or more of the entered positions is not in the Graph");
+      return null;
+    }
+    if (target.isVertex() == null)
+    {
+      System.out.println("One or more of the entered positions is not in the Graph");
+      return null;
+    }
+    source = source.isVertex();
+    target = target.isVertex();
+    return source.get_shortest_as_int(target);
   }
 
   /**
@@ -213,10 +259,6 @@ public class WGraph
         //we are not printing when there is no file.
         return;
       }
-      System.out.println("Total number of vertices in graph: " + this.numVert);
-      System.out.println("Max number of vertices: " + this.vertices.length);
-      System.out.println("Total number of edges in graph: " + this.numEdges);
-      System.out.println("Max number of edges: " + this.edges.length);
       for (int i = 0; i < numEdges; i++)
       {
         Node from = edges[i].start;
@@ -238,9 +280,14 @@ public class WGraph
   {
     //here is where main stuff will go
     WGraph graph = new WGraph("D:\\Documents\\Workspaces\\CS311\\nheisler-PA2\\src\\GraphData.txt");
-    graph.printGraph();
+    System.out.println("Total number of vertices in graph: " + graph.numVert);
+    System.out.println("Max number of vertices: " + graph.vertices.length);
+    System.out.println("Total number of edges in graph: " + graph.numEdges);
+    System.out.println("Max number of edges: " + graph.edges.length);
     System.out.println();
+    //graph.printGraph();
     System.out.println();
+
     int i = 0;
     while (i < graph.numVert)
     {
