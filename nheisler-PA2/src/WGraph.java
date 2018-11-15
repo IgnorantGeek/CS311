@@ -289,18 +289,6 @@ public class WGraph
      */
     private void printGraph()
     {
-      try
-      {
-        File file = new File(this.pathtofile);
-        Scanner scan = new Scanner(file);
-        scan.close();
-      }
-      catch (FileNotFoundException e)
-      {
-        //don't do anything, the constructor handles error printing, this only makes sure
-        //we are not printing when there is no file.
-        return;
-      }
       for (int i = 0; i < numEdges; i++)
       {
         Node from = edges[i].start;
@@ -318,19 +306,37 @@ public class WGraph
       }
     }
 
+    /**
+     * Helper method that prints general info about the Graph.
+     */
+    private void printInfo()
+    {
+      try
+      {
+        File file = new File(this.pathtofile);
+        Scanner scan = new Scanner(file);
+        scan.close();
+      }
+      catch (FileNotFoundException e)
+      {
+        //don't do anything, the constructor handles error printing, this only makes sure
+        //we are not printing when there is no file.
+        return;
+      }
+      System.out.println("Total number of vertices in graph: " + this.numVert);
+      System.out.println("Max number of vertices: " + this.vertices.length);
+      System.out.println("Total number of edges in graph: " + this.numEdges);
+      System.out.println("Max number of edges: " + this.edges.length);
+      System.out.println();
+    }
+
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("D:\\Documents\\Workspaces\\CS311\\nheisler-PA2\\src\\GraphData.txt");
-    System.out.println("Total number of vertices in graph: " + graph.numVert);
-    System.out.println("Max number of vertices: " + graph.vertices.length);
-    System.out.println("Total number of edges in graph: " + graph.numEdges);
-    System.out.println("Max number of edges: " + graph.edges.length);
-    System.out.println();
-    graph.printGraph();
-    System.out.println();
-
+    WGraph graph = new WGraph("GraphData.txt");
     int i = 0;
+    graph.printInfo();
+    graph.printGraph();
     while (i < graph.numVert)
     {
       graph.vertices[i].printNode();
