@@ -1,6 +1,5 @@
 import java.lang.*;
 import java.util.*;
-import java.awt.PrintGraphics;
 import java.io.*;
 
 /**
@@ -107,6 +106,7 @@ public class WGraph
       ArrayList<Integer> path_to_target = new ArrayList<Integer>();// what we are returning, array of positions
       //ArrayList<Node> temp_path = new ArrayList<Node>();
       ArrayList<Integer> distance = new ArrayList<Integer>();
+      String s[] = new String[numVert]; // stores the path of each node
       
       // this loop should initialize the unvisited array and distance arrays
       // sourcemark stores the index of the source node in the unvisited array
@@ -122,6 +122,7 @@ public class WGraph
         distance.add(dist);
         i++;
       }
+
       // now we want to "look at" the source vertex, unvisited[sourcemark]
       Node looking = unvisited.get(sourcemark);
       while (unvisited.size() != 0)
@@ -156,7 +157,11 @@ public class WGraph
       }
       // End Dijkstra Block
 
-      //TODO: Find way to save the shortest path
+      // TODO: Path storage and data structure conversion
+      // find a way to store the path from source of each Node. Best practice will probably be to create a data structure for storing dijkstra results.
+      // Data structure will feature an int for that node's distance from the source and a string that stores the path from source. Whenever distance gets update, we 
+      // want to update the path as well. Or I could use a string array to store the path in the same way I did distances. Gonna be a bitch tho
+
       return path_to_target;
     }
   }
@@ -217,12 +222,12 @@ public class WGraph
           numVert++;
           newEdge = true;
         }
-        if (numVert != vertices.length | !newEdge) // Bug: seems to be working now
+        if (numVert != vertices.length | !newEdge)
         {
           edges[numEdges] = e;
           numEdges++;
         }
-        scan.nextLine(); // thats annoying
+        scan.nextLine();
       }
       scan.close();
     }
@@ -304,6 +309,7 @@ public class WGraph
         System.out.print(cost);
         System.out.println();
       }
+      System.out.println();
     }
 
     /**
