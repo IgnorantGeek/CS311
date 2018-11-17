@@ -6,6 +6,7 @@ public class Node
 {
     ArrayList<Edge> edges;
     int position[] = new int[2];
+    int distance;
 
     Node(int x, int y)
     {
@@ -80,9 +81,7 @@ public class Node
       ArrayList<Node> visited = new ArrayList<Node>();
       ArrayList<Node> unvisited = new ArrayList<Node>();
       ArrayList<Integer> path_to_target = new ArrayList<Integer>();// what we are returning, array of positions
-      //ArrayList<Node> temp_path = new ArrayList<Node>();
-      ArrayList<Integer> distance = new ArrayList<Integer>();
-      String s[] = new String[g.numVert]; // stores the path of each node
+      //ArrayList<Node> temp_path = new ArrayList<Node>();  Need to implement this path. Literally just add to the path until the target node is reached.
       
       // this loop should initialize the unvisited array and distance arrays
       // sourcemark stores the index of the source node in the unvisited array
@@ -94,8 +93,8 @@ public class Node
           sourcemark = i;
           dist = 0;
         }
+        g.vertices[i].distance = dist;
         unvisited.add(g.vertices[i]);
-        distance.add(dist);
         i++;
       }
 
@@ -111,22 +110,22 @@ public class Node
           {
             int neighborIndex = unvisited.indexOf(neighbor);
             int lookIndex = unvisited.indexOf(looking);
-            int newDist = distance.get(lookIndex) + examine.weight;
-            if (newDist < distance.get(neighborIndex))
+            int newDist = unvisited.get(lookIndex).distance + examine.weight;
+            if (newDist < unvisited.get(neighborIndex).distance)
             {
-              distance.set(neighborIndex, newDist);
+              unvisited.get(neighborIndex).distance = newDist;
             }
           }
         }
         unvisited.remove(looking);
         visited.add(looking);
         // looking = next smallest Node in unvisited. So I need to find the index of the next smallest number in distance.
-        int smallest = distance.get(0);
+        int smallest = unvisited.get(0).distance;
         for (int x = 0; x < unvisited.size(); x++)
         {
-          if (distance.get(x) < smallest)
+          if (unvisited.get(x).distance < smallest)
           {
-            smallest = distance.get(x);
+            smallest = unvisited.get(x).distance;
           }
         }
         looking = unvisited.get(smallest);
