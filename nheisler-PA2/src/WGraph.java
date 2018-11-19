@@ -123,21 +123,12 @@ public class WGraph
    */
   public ArrayList<Integer> V2S(int ux, int uy, ArrayList<Integer> S)
   {
-    Node source = new Node(ux, uy);
-    if (source.isVertex(this) == null)
-    {
-      System.out.println("One or more of the entered positions is not in the Graph");
-      return null;
-    }
     for (int i = 0; i < S.size(); i+=2)
     {
-      // need to make sure we are scanning two at a time. It is understood that S is even
-      Node target = new Node(S.get(i), S.get(i+1));
-      // check if the node exists. If it does check for a path from source
-      if (target.isVertex(this) != null)
-      {
-        if (source.get_shortest_as_int(this, target) != null);
-      }
+      // use V2V here. Only don't return null until the end of the whole list is reached
+      ArrayList<Integer> check = this.V2V(ux,uy,S.get(i),S.get(i+1));
+      if (check != null) return check;
+      
     }
     return null;
   }
@@ -150,6 +141,14 @@ public class WGraph
    */
   public ArrayList<Integer> S2S(ArrayList<Integer> S1, ArrayList<Integer> S2)
   {
+    for (int i = 0; i < S1.size(); i+=2)
+    {
+      for (int j = 0; j < S2.size(); i+=2)
+      {
+        ArrayList<Integer> check = this.V2V(S1.get(i),S1.get(i+1),S2.get(j),S2.get(j+1));
+        if (check != null) return check;
+      }
+    }
     return null;
   }
 
@@ -201,26 +200,4 @@ public class WGraph
       System.out.println("Max number of edges: " + this.edges.length);
       System.out.println();
     }
-
-  public static void main(String[] args)
-  {
-    //here is where main stuff will go
-    WGraph graph = new WGraph("/home/nick/Documents/Workspaces/CS311/nheisler-PA2/src/GraphData.txt");
-    int i = 0;
-    graph.printInfo();
-    graph.printGraph();
-    while (i < graph.numVert)
-    {
-      graph.vertices[i].printNode();
-      i++;
-    }
-    System.out.println();
-    ArrayList<Integer> path = graph.V2V(1,2,3,4);
-    i = 0;
-    while (i < path.size())
-    {
-      System.out.println(path.get(i));
-      i++;
-    }
-  }
 }
