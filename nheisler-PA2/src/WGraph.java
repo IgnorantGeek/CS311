@@ -123,6 +123,22 @@ public class WGraph
    */
   public ArrayList<Integer> V2S(int ux, int uy, ArrayList<Integer> S)
   {
+    Node source = new Node(ux, uy);
+    if (source.isVertex(this) == null)
+    {
+      System.out.println("One or more of the entered positions is not in the Graph");
+      return null;
+    }
+    for (int i = 0; i < S.size(); i+=2)
+    {
+      // need to make sure we are scanning two at a time. It is understood that S is even
+      Node target = new Node(S.get(i), S.get(i+1));
+      // check if the node exists. If it does check for a path from source
+      if (target.isVertex(this) != null)
+      {
+        if (source.get_shortest_as_int(this, target) != null);
+      }
+    }
     return null;
   }
 
@@ -189,13 +205,21 @@ public class WGraph
   public static void main(String[] args)
   {
     //here is where main stuff will go
-    WGraph graph = new WGraph("GraphData.txt");
+    WGraph graph = new WGraph("/home/nick/Documents/Workspaces/CS311/nheisler-PA2/src/GraphData.txt");
     int i = 0;
     graph.printInfo();
     graph.printGraph();
     while (i < graph.numVert)
     {
       graph.vertices[i].printNode();
+      i++;
+    }
+    System.out.println();
+    ArrayList<Integer> path = graph.V2V(1,2,3,4);
+    i = 0;
+    while (i < path.size())
+    {
+      System.out.println(path.get(i));
       i++;
     }
   }
