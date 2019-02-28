@@ -85,7 +85,7 @@ class WikiCrawler
         }
       }
       String html = new String();
-      if (dontadd == false) html = URLtoString(BASE_URL+tempLink); //only read this is dontadd is false
+      if (dontadd == false) html = URLtoString(BASE_URL+tempLink); //only read this if dontadd is false
       if (!dontadd && checkTopics(html))
       {
         boolean dothething = true;
